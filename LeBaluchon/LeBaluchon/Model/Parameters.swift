@@ -12,7 +12,7 @@ class Parameters {
     public static let parameters = Parameters()
     
     // City from origin
-    var originCity = "Paris"
+    var originCity = ""
     
     // Currency from Origin
     var originCurrency = "EUR"
@@ -21,7 +21,7 @@ class Parameters {
     var originLanguage = "en"
     
     // City for vacation
-    var destinationCity = "New York"
+    var destinationCity = ""
     
     // Destination currency
     var destinationCurrency = "EUR"

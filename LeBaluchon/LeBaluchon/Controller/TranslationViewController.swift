@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TranslationViewController: UIViewController {
+class TranslationViewController: UIViewController, UITextViewDelegate {
     
     // Outlets target and destination languages
     @IBOutlet weak var originLanguageLabel: UILabel!
@@ -29,6 +29,15 @@ class TranslationViewController: UIViewController {
     
     // Instance of the request
     var translationRequest = TranslationRequest(session: URLSession(configuration: .default))
+    
+    // Parameter to catch the error and display the alert
+    var catchError: TranslationError! {
+        didSet {
+            DispatchQueue.main.async {
+                self.alert(title: "Error", message: "Translation Request could not be succesfull !!")
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,13 +46,17 @@ class TranslationViewController: UIViewController {
         //Dismiss the keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
+        
+        // Set the text fields delegates
+        self.originTextView.delegate = self
+        self.destinationTextView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
         displayLanguages()
     }
     
-    // Dismiss the keyboard
+    // Dismiss the keyboard (tap on the view)
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -55,6 +68,7 @@ class TranslationViewController: UIViewController {
             switch result {
             case .failure(let error):
                 print(error)
+                self?.catchError = error
             case .success(let translation):
                 // if success, attribute the data
                 self?.translation = translation
@@ -71,8 +85,21 @@ class TranslationViewController: UIViewController {
     
     // Get translation button
     @IBAction func getTranslationButton(_ sender: Any) {
-        // Call the request method with the text view content as parameter
-        getTranslationRequest(text: originTextView.text)
+        // Check if both languages are the same
+        if Parameters.parameters.originLanguage == Parameters.parameters.destinationLanguage {
+            // Call the alert method
+            alert(title: "Error", message: "Please select to different languages to generate a translation")
+        } else {
+            // Call the request method with the text view content as parameter
+            getTranslationRequest(text: originTextView.text)
+        }
+    }
+    
+    // Method to call an alert
+    func alert(title: String, message: String) {
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        return self.present(alertVC, animated: true, completion: nil)
     }
     
 }

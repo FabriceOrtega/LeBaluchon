@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ParametersViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class ParametersViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
   
     
     
@@ -34,12 +34,22 @@ class ParametersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         //Dismiss the keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
+        
+        // Set the text fields delegates
+        self.myCityTextField.delegate = self
+        self.destinationTextField.delegate = self
     }
     
-    // Dismiss the keyboard
+    // Dismiss the keyboard (tap on the view)
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    // Dismiss the keyboard (Done)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            self.view.endEditing(true)
+            return false
+        }
     
     @IBAction func saveDataButton(_ sender: Any) {
         // Save cities

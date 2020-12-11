@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CurrencyViewController: UIViewController {
+class CurrencyViewController: UIViewController, UITextFieldDelegate {
     
     // Rate outlet
     @IBOutlet weak var rateLabel: UILabel!
@@ -37,6 +37,15 @@ class CurrencyViewController: UIViewController {
     // Instance of the request
     var currencyRequest = CurrencyRequest(session: URLSession(configuration: .default))
     
+    // Parameter to catch the error and display the alert
+    var catchError: CurrencyError! {
+        didSet {
+            DispatchQueue.main.async {
+                self.alert(title: "Error", message: "Currency Request could not be succesfull !!")
+            }
+        }
+    }
+    
     // View did load
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +55,10 @@ class CurrencyViewController: UIViewController {
         //Dismiss the keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
+        
+        // Set the text fields delegates
+        self.originAmountTextField.delegate = self
+        self.destinationAmountTextField.delegate = self
     }
     
     // View did appear
@@ -54,10 +67,16 @@ class CurrencyViewController: UIViewController {
         displayCurrencies()
     }
     
-    // Dismiss the keyboard
+    // Dismiss the keyboard (tap on the view)
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    // Dismiss the keyboard (Done)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            self.view.endEditing(true)
+            return false
+        }
     
     // call the request with completion handler
     func getCurrencyRequest() {
@@ -66,6 +85,7 @@ class CurrencyViewController: UIViewController {
             switch result {
             case .failure(let error):
                 print(error)
+                self?.catchError = error
             case .success(let currency):
                 // if success, attribute the data
                 self?.currency = currency
@@ -122,21 +142,38 @@ class CurrencyViewController: UIViewController {
     
     
     @IBAction func originButton(_ sender: Any) {
-        // Attribute the amount from the text field
-        Currency.currency.originAmount = Double(originAmountTextField.text ?? "")
-        // Do the calculation
-        Currency.currency.calculateOriginToDestination()
-        // Diplay the result in the destination text field
-        destinationAmountTextField.text = String(Currency.currency.destinationAmount)
+        if originAmountTextField.text == "" {
+            // If no text, show an alert
+            alert(title: "Error", message: "Please enter an amount to convert")
+        } else {
+            // Attribute the amount from the text field
+            Currency.currency.originAmount = Double(originAmountTextField.text ?? "")
+            // Do the calculation
+            Currency.currency.calculateOriginToDestination()
+            // Diplay the result in the destination text field
+            destinationAmountTextField.text = String(Currency.currency.destinationAmount)
+        }
     }
     
     @IBAction func destinationButton(_ sender: Any) {
-        // Attribute the amount from the text field
-        Currency.currency.destinationAmount = Double(destinationAmountTextField.text ?? "")
-        // Do the calculation
-        Currency.currency.calculateDestinationToOrigin()
-        // Diplay the result in the origin text field
-        originAmountTextField.text = String(Currency.currency.originAmount)
+        if destinationAmountTextField.text == "" {
+            // If no text, show an alert
+            alert(title: "Error", message: "Please enter an amount to convert")
+        } else {
+            // Attribute the amount from the text field
+            Currency.currency.destinationAmount = Double(destinationAmountTextField.text ?? "")
+            // Do the calculation
+            Currency.currency.calculateDestinationToOrigin()
+            // Diplay the result in the origin text field
+            originAmountTextField.text = String(Currency.currency.originAmount)
+        }
+    }
+    
+    // Method to call an alert
+    func alert(title: String, message: String) {
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        return self.present(alertVC, animated: true, completion: nil)
     }
     
 }

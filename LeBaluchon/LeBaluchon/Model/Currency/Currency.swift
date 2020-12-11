@@ -25,13 +25,13 @@ class Currency {
     
     func calculateOriginToDestination() {
         if originAmount != nil {
-            destinationAmount = originAmount * rate
+            destinationAmount = round(100 * originAmount * rate) / 100
         }
     }
     
     func calculateDestinationToOrigin() {
         if destinationAmount != nil {
-            originAmount = destinationAmount / rate
+            originAmount = round(100 * destinationAmount / rate) / 100
         }
     }
 }
