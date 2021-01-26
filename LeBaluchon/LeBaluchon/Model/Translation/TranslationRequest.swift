@@ -12,7 +12,7 @@ struct TranslationRequest {
     var requestBody = "q=Salut&source=fr&target=en&format=text"
     
     //API key
-    let apiKeyTranslation = "AIzaSyAMLie8Ab6iLztG1vnXDVVhN1TjzVRgE5o"
+    let apiKeyTranslation = ""
     
     var url = URL(string: "https://translation.googleapis.com/language/translate/v2")
     
@@ -44,16 +44,12 @@ struct TranslationRequest {
                 return
             }
             
-            // Print the data
-            if let data = data, let stringResponse = String(data: data, encoding: .utf8) {
-                            print("Response \(stringResponse)")
-                        }
             
             // If data available, convert it thru the decoder
             do {
                 let decoder = JSONDecoder()
                 let translationResponse = try decoder.decode(TranslateAPI.self, from: jsonData)
-                print("test: \(translationResponse)")
+
                 
                 completion(.success(translationResponse))
                 

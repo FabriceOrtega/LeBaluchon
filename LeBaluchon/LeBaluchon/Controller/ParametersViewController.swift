@@ -55,14 +55,6 @@ class ParametersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         // Save cities
         Parameters.parameters.originCity = myCityTextField.text ?? ""
         Parameters.parameters.destinationCity = destinationTextField.text ?? ""
-        print("Origin")
-        print(Parameters.parameters.originCity)
-        print(Parameters.parameters.originLanguage)
-        print(Parameters.parameters.originCurrency)
-        print("Destination")
-        print(Parameters.parameters.destinationCity)
-        print(Parameters.parameters.destinationLanguage)
-        print(Parameters.parameters.destinationCurrency)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

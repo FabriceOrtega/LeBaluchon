@@ -10,7 +10,7 @@ import Foundation
 struct WeatherRequest {
     let headers = [
       "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
-      "x-rapidapi-key": "3b9f34e4f1mshdf323313b63b2edp189e43jsn58405aaa549f"
+      "x-rapidapi-key": ""
     ]
     
     var location: String! = "City"
@@ -49,16 +49,11 @@ struct WeatherRequest {
                 return
             }
             
-            // Print the data
-            if let data = data, let stringResponse = String(data: data, encoding: .utf8) {
-                            print("Response \(stringResponse)")
-                        }
             
             // If data available, convert it thru the decoder
             do {
                 let decoder = JSONDecoder()
                 let weatherResponse = try decoder.decode(WeatherAPI.self, from: jsonData)
-                print("testSuccess: \(weatherResponse)")
                 
                 completion(.success(weatherResponse))
                 

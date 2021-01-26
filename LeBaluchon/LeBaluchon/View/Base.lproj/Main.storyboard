@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fDy-QL-OYh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fDy-QL-OYh">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -440,7 +440,7 @@
             </objects>
             <point key="canvasLocation" x="1262.3188405797102" y="-291.29464285714283"/>
         </scene>
-        <!--Item 1-->
+        <!--Parameters-->
         <scene sceneID="ZKn-rB-TW0">
             <objects>
                 <viewController id="7MY-3u-Z6A" customClass="ParametersViewController" customModule="LeBaluchon" customModuleProvider="target" sceneMemberID="viewController">
@@ -617,7 +617,7 @@
                             <constraint firstItem="nMi-g1-V29" firstAttribute="top" secondItem="TGF-OG-Shj" secondAttribute="top" constant="20" id="ykW-W9-Iga"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" image="person.circle" id="HMB-x6-7Ij"/>
+                    <tabBarItem key="tabBarItem" title="Parameters" image="person.circle" id="HMB-x6-7Ij"/>
                     <connections>
                         <outlet property="destinationCurrencyPickerView" destination="ehm-m4-jgR" id="VAt-Cm-bAd"/>
                         <outlet property="destinationLanguagePickerView" destination="uzk-tZ-jYo" id="2AO-FD-ohJ"/>

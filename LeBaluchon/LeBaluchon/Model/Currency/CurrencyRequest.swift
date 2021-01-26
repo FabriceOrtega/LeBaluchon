@@ -9,7 +9,7 @@ import Foundation
 
 struct CurrencyRequest {
     // Build URL with the key and the currency !! Only EUR as base is working as i subscribed to free account
-    let apiKey = "9d8a78de63e9400f6cfa79ad1c98ef3f"
+    let apiKey = ""
     let baseCurrency = Parameters.parameters.originCurrency
     
     var url = URL(string: "http://data.fixer.io/api/latest")
@@ -32,16 +32,11 @@ struct CurrencyRequest {
                 return
             }
             
-            // Print the data
-            if let data = data, let stringResponse = String(data: data, encoding: .utf8) {
-                            print("Response \(stringResponse)")
-                        }
             
             // If data available, convert it thru the decoder
             do {
                 let decoder = JSONDecoder()
                 let currencyResponse = try decoder.decode(CurrencyAPI.self, from: jsonData)
-                print("test: \(currencyResponse)")
                 
                 completion(.success(currencyResponse))
                 

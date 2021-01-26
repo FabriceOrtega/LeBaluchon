@@ -89,7 +89,6 @@ class CurrencyViewController: UIViewController, UITextFieldDelegate {
             case .success(let currency):
                 // if success, attribute the data
                 self?.currency = currency
-                print(currency)
             }
         }
     }

@@ -96,7 +96,6 @@ class WeatherViewController: UIViewController {
                 } else if city == Parameters.parameters.destinationCity {
                     self?.weatherDestination = weather
                 }
-                //print(weather)
             }
         }
     }

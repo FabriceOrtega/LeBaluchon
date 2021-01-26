@@ -72,7 +72,6 @@ class TranslationViewController: UIViewController, UITextViewDelegate {
             case .success(let translation):
                 // if success, attribute the data
                 self?.translation = translation
-                print(translation)
             }
         }
     }
