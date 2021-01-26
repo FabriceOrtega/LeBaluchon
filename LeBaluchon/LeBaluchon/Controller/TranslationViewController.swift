@@ -18,11 +18,11 @@ class TranslationViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var destinationTextView: UITextView!
     
     // To get the data from the request
-    var translation: TranslateAPI! {
+    var translation: TranslateAPI? {
         didSet {
             DispatchQueue.main.async {
                 // Attribute result to the destination text view
-                self.destinationTextView.text = self.translation.data.translations[0].translatedText
+                self.destinationTextView.text = self.translation?.data.translations[0].translatedText
             }
         }
     }
@@ -31,7 +31,7 @@ class TranslationViewController: UIViewController, UITextViewDelegate {
     var translationRequest = TranslationRequest(session: URLSession(configuration: .default))
     
     // Parameter to catch the error and display the alert
-    var catchError: TranslationError! {
+    var catchError: TranslationError? {
         didSet {
             DispatchQueue.main.async {
                 self.alert(title: "Error", message: "Translation Request could not be succesfull !!")
@@ -92,13 +92,6 @@ class TranslationViewController: UIViewController, UITextViewDelegate {
             // Call the request method with the text view content as parameter
             getTranslationRequest(text: originTextView.text)
         }
-    }
-    
-    // Method to call an alert
-    func alert(title: String, message: String) {
-        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return self.present(alertVC, animated: true, completion: nil)
     }
     
 }

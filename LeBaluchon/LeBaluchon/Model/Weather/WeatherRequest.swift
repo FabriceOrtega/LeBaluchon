@@ -13,7 +13,7 @@ struct WeatherRequest {
       "x-rapidapi-key": ""
     ]
     
-    var location: String! = "City"
+    var location: String = "City"
     
     var request = NSMutableURLRequest(url: NSURL(string: "https://community-open-weather-map.p.rapidapi.com/forecast?q=london")! as URL,
                                             cachePolicy: .useProtocolCachePolicy,

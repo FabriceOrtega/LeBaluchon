@@ -26,7 +26,7 @@ class CurrencyViewController: UIViewController, UITextFieldDelegate {
     
     
     // To get the data from the request
-    var currency: CurrencyAPI! {
+    var currency: CurrencyAPI? {
         didSet {
             DispatchQueue.main.async {
                 self.attributeRate()
@@ -38,7 +38,7 @@ class CurrencyViewController: UIViewController, UITextFieldDelegate {
     var currencyRequest = CurrencyRequest(session: URLSession(configuration: .default))
     
     // Parameter to catch the error and display the alert
-    var catchError: CurrencyError! {
+    var catchError: CurrencyError? {
         didSet {
             DispatchQueue.main.async {
                 self.alert(title: "Error", message: "Currency Request could not be succesfull !!")
@@ -97,34 +97,38 @@ class CurrencyViewController: UIViewController, UITextFieldDelegate {
     func attributeRate() {
         let rateText = "Rate : "
         
-        switch Parameters.parameters.destinationCurrency {
-        case "EUR":
-            Currency.currency.rate = currency.rates.EUR
-            return rateLabel.text = rateText + String(currency.rates.EUR)
-        case "USD":
-            Currency.currency.rate = currency.rates.USD
-            return rateLabel.text = rateText + String(currency.rates.USD)
-        case "GBP":
-            Currency.currency.rate = currency.rates.GBP
-            return rateLabel.text = rateText + String(currency.rates.GBP)
-        case "CHF":
-            Currency.currency.rate = currency.rates.CHF
-            return rateLabel.text = rateText + String(currency.rates.CHF)
-        case "AUD":
-            Currency.currency.rate = currency.rates.AUD
-            return rateLabel.text = rateText + String(currency.rates.AUD)
-        case "CAD":
-            Currency.currency.rate = currency.rates.CAD
-            return rateLabel.text = rateText + String(currency.rates.CAD)
-        case "JPY":
-            Currency.currency.rate = currency.rates.JPY
-            return rateLabel.text = rateText + String(currency.rates.JPY)
-        case "CNY":
-            Currency.currency.rate = currency.rates.CNY
-            return rateLabel.text = rateText + String(currency.rates.CNY)
-        default:
-            return
+        if let rates = currency?.rates {
+            switch Parameters.parameters.destinationCurrency {
+            case "EUR":
+                Currency.currency.rate = rates.EUR
+                return rateLabel.text = rateText + String(rates.EUR)
+            case "USD":
+                Currency.currency.rate = rates.USD
+                return rateLabel.text = rateText + String(rates.USD)
+            case "GBP":
+                Currency.currency.rate = rates.GBP
+                return rateLabel.text = rateText + String(rates.GBP)
+            case "CHF":
+                Currency.currency.rate = rates.CHF
+                return rateLabel.text = rateText + String(rates.CHF)
+            case "AUD":
+                Currency.currency.rate = rates.AUD
+                return rateLabel.text = rateText + String(rates.AUD)
+            case "CAD":
+                Currency.currency.rate = rates.CAD
+                return rateLabel.text = rateText + String(rates.CAD)
+            case "JPY":
+                Currency.currency.rate = rates.JPY
+                return rateLabel.text = rateText + String(rates.JPY)
+            case "CNY":
+                Currency.currency.rate = rates.CNY
+                return rateLabel.text = rateText + String(rates.CNY)
+            default:
+                return
+            }
         }
+        
+        
     }
     
     // Method to display the currencies
@@ -150,7 +154,9 @@ class CurrencyViewController: UIViewController, UITextFieldDelegate {
             // Do the calculation
             Currency.currency.calculateOriginToDestination()
             // Diplay the result in the destination text field
-            destinationAmountTextField.text = String(Currency.currency.destinationAmount)
+            if let destinationAmount = Currency.currency.destinationAmount {
+                destinationAmountTextField.text = String(destinationAmount)
+            }
         }
     }
     
@@ -164,15 +170,10 @@ class CurrencyViewController: UIViewController, UITextFieldDelegate {
             // Do the calculation
             Currency.currency.calculateDestinationToOrigin()
             // Diplay the result in the origin text field
-            originAmountTextField.text = String(Currency.currency.originAmount)
+            if let originAmount = Currency.currency.originAmount {
+                originAmountTextField.text = String(originAmount)
+            }
         }
-    }
-    
-    // Method to call an alert
-    func alert(title: String, message: String) {
-        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return self.present(alertVC, animated: true, completion: nil)
     }
     
 }

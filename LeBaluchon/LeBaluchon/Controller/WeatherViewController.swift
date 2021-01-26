@@ -31,7 +31,7 @@ class WeatherViewController: UIViewController {
     
     
     // To get the data from the request for the origin
-    var weatherOrigin: WeatherAPI! {
+    var weatherOrigin: WeatherAPI? {
         didSet {
             DispatchQueue.main.async {
                 self.displayCities()
@@ -42,7 +42,7 @@ class WeatherViewController: UIViewController {
     }
     
     // To get the data from the request for the destination
-    var weatherDestination: WeatherAPI! {
+    var weatherDestination: WeatherAPI?{
         didSet {
             DispatchQueue.main.async {
                 self.displayCities()
@@ -53,7 +53,7 @@ class WeatherViewController: UIViewController {
     }
     
     // Parameter to catch the error and display the alert
-    var catchError: WeatherRequestError! {
+    var catchError: WeatherRequestError? {
         didSet {
             DispatchQueue.main.async {
                 self.alert(title: "Error", message: "Weather Request could not be succesfull !!")
@@ -123,14 +123,18 @@ class WeatherViewController: UIViewController {
         // Units
         let units = "°C"
         
-        // Attribute the data for today
-        temperatureLabelOrigin1.text = String(round(10*weatherOrigin.list[0].main.calcultedCelciusTemp)/10) + units
+        if let origin = weatherOrigin {
+            // Attribute the data for today
+            temperatureLabelOrigin1.text = String(round(10*origin.list[0].main.calcultedCelciusTemp)/10) + units
+            
+            // Attribute the data for tomorrow same hour (index 8)
+            temperatureLabelOrigin2.text = String(round(10*origin.list[8].main.calcultedCelciusTemp)/10) + units
+            
+            // Attribute the data for the day after same hour (index 16)
+            temperatureLabelOrigin3.text = String(round(10*origin.list[16].main.calcultedCelciusTemp)/10) + units
+        }
         
-        // Attribute the data for tomorrow same hour (index 8)
-        temperatureLabelOrigin2.text = String(round(10*weatherOrigin.list[8].main.calcultedCelciusTemp)/10) + units
         
-        // Attribute the data for the day after same hour (index 16)
-        temperatureLabelOrigin3.text = String(round(10*weatherOrigin.list[16].main.calcultedCelciusTemp)/10) + units
     }
     
     // Method to update the temperature labels
@@ -138,28 +142,36 @@ class WeatherViewController: UIViewController {
         // Units
         let units = "°C"
         
-        // Attribute the data for today
-        temperatureLabelDestination1.text = String(round(10*weatherDestination.list[0].main.calcultedCelciusTemp)/10) + units
+        if let destination = weatherDestination {
+            // Attribute the data for today
+            temperatureLabelDestination1.text = String(round(10*destination.list[0].main.calcultedCelciusTemp)/10) + units
+            
+            // Attribute the data for tomorrow same hour (index 8)
+            temperatureLabelDestination2.text = String(round(10*destination.list[8].main.calcultedCelciusTemp)/10) + units
+            
+            // Attribute the data for the day after same hour (index 16)
+            temperatureLabelDestination3.text = String(round(10*destination.list[16].main.calcultedCelciusTemp)/10) + units
+        }
         
-        // Attribute the data for tomorrow same hour (index 8)
-        temperatureLabelDestination2.text = String(round(10*weatherDestination.list[8].main.calcultedCelciusTemp)/10) + units
         
-        // Attribute the data for the day after same hour (index 16)
-        temperatureLabelDestination3.text = String(round(10*weatherDestination.list[16].main.calcultedCelciusTemp)/10) + units
     }
     
     // Method to attribute the images from origin city
     func attributeWeatherImageOrigin(){
-        weatherImageOrigin1.image = attributeWeatherImage(icon: weatherOrigin.list[0].weather[0].icon)
-        weatherImageOrigin2.image = attributeWeatherImage(icon: weatherOrigin.list[8].weather[0].icon)
-        weatherImageOrigin3.image = attributeWeatherImage(icon: weatherOrigin.list[16].weather[0].icon)
+        if let origin = weatherOrigin {
+            weatherImageOrigin1.image = attributeWeatherImage(icon: origin.list[0].weather[0].icon)
+            weatherImageOrigin2.image = attributeWeatherImage(icon: origin.list[8].weather[0].icon)
+            weatherImageOrigin3.image = attributeWeatherImage(icon: origin.list[16].weather[0].icon)
+        }
     }
     
     // Method to attribute the images from origin city
     func attributeWeatherImageDestination(){
-        weatherImageDestination1.image = attributeWeatherImage(icon: weatherDestination.list[0].weather[0].icon)
-        weatherImageDestination2.image = attributeWeatherImage(icon: weatherDestination.list[8].weather[0].icon)
-        weatherImageDestination3.image = attributeWeatherImage(icon: weatherDestination.list[16].weather[0].icon)
+        if let destination = weatherDestination {
+            weatherImageDestination1.image = attributeWeatherImage(icon: destination.list[0].weather[0].icon)
+            weatherImageDestination2.image = attributeWeatherImage(icon: destination.list[8].weather[0].icon)
+            weatherImageDestination3.image = attributeWeatherImage(icon: destination.list[16].weather[0].icon)
+        }
     }
     
     // Method to attribute the image
@@ -210,13 +222,5 @@ class WeatherViewController: UIViewController {
         
         return UIImage(named: imageName)
     }
-    
-    // Method to call an alert
-    func alert(title: String, message: String) {
-        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return self.present(alertVC, animated: true, completion: nil)
-    }
-
 
 }

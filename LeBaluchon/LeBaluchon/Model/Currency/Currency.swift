@@ -12,26 +12,30 @@ class Currency {
     public static let currency = Currency()
     
     // Rates between the two currencies
-    var rate: Double!
+    var rate: Double?
     
     // Origin amount
-    var originAmount: Double!
+    var originAmount: Double?
     
     // Destination amount
-    var destinationAmount: Double!
+    var destinationAmount: Double?
     
     // Public init for pattern singleton
     public init() {}
     
     func calculateOriginToDestination() {
         if originAmount != nil {
-            destinationAmount = round(100 * originAmount * rate) / 100
+            if let rate = rate,  let originAmount = originAmount {
+                destinationAmount = round(100 * originAmount * rate) / 100
+            }
         }
     }
     
     func calculateDestinationToOrigin() {
         if destinationAmount != nil {
-            originAmount = round(100 * destinationAmount / rate) / 100
+            if let rate = rate, let destinationAmount = destinationAmount {
+                originAmount = round(100 * destinationAmount / rate) / 100
+            }
         }
     }
 }
