@@ -67,7 +67,7 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Call requests of both cities
-        callRequests()
+        //callRequests()
         
     }
     

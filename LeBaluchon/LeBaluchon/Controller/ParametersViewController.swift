@@ -20,6 +20,10 @@ class ParametersViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var destinationTextField: UITextField!
     @IBOutlet weak var destinationLanguagePickerView: UIPickerView!
     @IBOutlet weak var destinationCurrencyPickerView: UIPickerView!
+    @IBOutlet weak var saveButtonOutlet: UIButton!
+    
+    // Round corner value
+    var cornerRadius: CGFloat = 8
     
     
     override func viewDidLoad() {
@@ -38,6 +42,13 @@ class ParametersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         // Set the text fields delegates
         self.myCityTextField.delegate = self
         self.destinationTextField.delegate = self
+        
+        //Round corners
+        destinationTextField.layer.cornerRadius = cornerRadius
+        destinationTextField.layer.borderWidth = 1.0
+        myCityTextField.layer.cornerRadius = cornerRadius
+        myCityTextField.layer.borderWidth = 1.0
+        saveButtonOutlet.layer.cornerRadius = cornerRadius
     }
     
     // Dismiss the keyboard (tap on the view)

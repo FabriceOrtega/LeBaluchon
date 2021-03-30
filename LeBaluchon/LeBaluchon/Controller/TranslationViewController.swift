@@ -17,6 +17,12 @@ class TranslationViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var originTextView: UITextView!
     @IBOutlet weak var destinationTextView: UITextView!
     
+    // Button outlet
+    @IBOutlet weak var getTranslationButtonOutlet: UIButton!
+    
+    // Round corner value
+    var cornerRadius: CGFloat = 8
+    
     // To get the data from the request
     var translation: TranslateAPI? {
         didSet {
@@ -50,6 +56,13 @@ class TranslationViewController: UIViewController, UITextViewDelegate {
         // Set the text fields delegates
         self.originTextView.delegate = self
         self.destinationTextView.delegate = self
+        
+        //Round corners
+        originTextView.layer.cornerRadius = cornerRadius
+        originTextView.layer.borderWidth = 1.0
+        destinationTextView.layer.cornerRadius = cornerRadius
+        destinationTextView.layer.borderWidth = 1.0
+        getTranslationButtonOutlet.layer.cornerRadius = cornerRadius
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,8 +91,8 @@ class TranslationViewController: UIViewController, UITextViewDelegate {
     
     // Method to display languages
     func displayLanguages(){
-        originLanguageLabel.text = Parameters.parameters.originLanguage
-        destinationLanguageLabel.text = Parameters.parameters.destinationLanguage
+        originLanguageLabel.text = Parameters.parameters.originLanguage.uppercased()
+        destinationLanguageLabel.text = Parameters.parameters.destinationLanguage.uppercased()
     }
     
     // Get translation button

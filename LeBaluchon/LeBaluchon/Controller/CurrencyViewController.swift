@@ -24,6 +24,9 @@ class CurrencyViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var originButtonOutlet: UIButton!
     @IBOutlet weak var destinationButtonOutlet: UIButton!
     
+    // Round corner value
+    var cornerRadius: CGFloat = 8
+    
     
     // To get the data from the request
     var currency: CurrencyAPI? {
@@ -59,6 +62,14 @@ class CurrencyViewController: UIViewController, UITextFieldDelegate {
         // Set the text fields delegates
         self.originAmountTextField.delegate = self
         self.destinationAmountTextField.delegate = self
+        
+        //Round corners
+        originAmountTextField.layer.cornerRadius = cornerRadius
+        originAmountTextField.layer.borderWidth = 1.0
+        destinationAmountTextField.layer.cornerRadius = cornerRadius
+        destinationAmountTextField.layer.borderWidth = 1.0
+        originButtonOutlet.layer.cornerRadius = cornerRadius
+        destinationButtonOutlet.layer.cornerRadius = cornerRadius
     }
     
     // View did appear
